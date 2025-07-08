@@ -1,6 +1,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7735.h> // Hardware-specific library for ST7735
 #include <SPI.h>
+#include <Adafruit_BMP085.h>
 
 #define TFT_CS        10
 #define TFT_RST        8
@@ -10,7 +11,11 @@
 
 Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
 
-void setup(void) {
+float seaLevelPressure = 101820;
+Adafruit_BMP085 bmps;
+float temp;
+
+void setup() {
   Serial.begin(9600);
   Serial.println(F("Hello! Initializing..."));
 
@@ -28,13 +33,30 @@ void setup(void) {
     tft.drawFastVLine(x, 0, tft.height(), ST77XX_BLUE);
   }
 
-  delay(3000);
+  delay(1000);
 
   tft.fillScreen(ST77XX_BLACK);
 
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  temp = readTemp();
+  printTemp(temp);
+  delay(10000);
+
+}
+
+void printTemp(float temp) {
+
+  tft.setCursor(0, 0);
+  tft.setTextWrap(true);
+  tft.print("Temperature:");
+  tft.println(temp);
+
+}
+
+float readTemp() {
+
+  return bmps.readTemperature();
 
 }

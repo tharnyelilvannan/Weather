@@ -13,36 +13,21 @@ Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RS
 
 float seaLevelPressure = 101820;
 Adafruit_BMP085 bmps;
-float temp;
 
 void setup() {
   Serial.begin(9600);
-  Serial.println(F("Hello! Initializing..."));
 
   tft.initR(INITR_BLACKTAB);
+  
+  if (bmps.begin() != true) {
+    serial.println("Error initializing sensor.");
+  }
 
-  Serial.println(F("Initialized."));
+  delay(10000);
+
 
   // opening
   tft.fillScreen(ST77XX_BLACK);
-
-  for (int16_t y = 0; y < tft.height(); y += 10) {
-    tft.drawFastHLine(0, y, tft.width(), ST77XX_MAGENTA);
-  }
-  for (int16_t x = 0; x < tft.width(); x += 10) {
-    tft.drawFastVLine(x, 0, tft.height(), ST77XX_BLUE);
-  }
-
-  delay(1000);
-
-  tft.fillScreen(ST77XX_BLACK);
-
-}
-
-void loop() {
-  temp = readTemp();
-  printTemp(temp);
-  delay(10000);
 
 }
 
@@ -51,7 +36,9 @@ void printTemp(float temp) {
   tft.setCursor(0, 0);
   tft.setTextWrap(true);
   tft.print("Temperature:");
-  tft.println(temp);
+  tft.print(temp);
+  tft.println(" degrees Celsius");
+  delay(10000);
 
 }
 
@@ -59,4 +46,10 @@ float readTemp() {
 
   return bmps.readTemperature();
 
+}
+void loop() {
+  bmps.readTemperature();
+  float temp;
+  temp = readTemp();
+  printTemp(temp);
 }

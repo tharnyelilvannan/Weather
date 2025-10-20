@@ -20,7 +20,7 @@ void setup() {
   tft.initR(INITR_BLACKTAB);
   
   if (bmps.begin() != true) {
-    serial.println("Error initializing sensor.");
+    Serial.println("Error initializing sensor.");
   }
 
   delay(10000);

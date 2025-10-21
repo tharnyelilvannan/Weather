@@ -10,8 +10,6 @@
 #define TFT_SCLK      13
 
 Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
-
-float seaLevelPressure = 101820;
 Adafruit_BMP085 bmps;
 
 void setup() {
@@ -32,13 +30,14 @@ void setup() {
 }
 
 void printTemp(float temp) {
-
+  tft.setTextColor(ST77XX_BLUE);
   tft.setCursor(0, 0);
   tft.setTextWrap(true);
   tft.print("Temperature:");
+  tft.setCursor(0, 16);
   tft.print(temp);
   tft.println(" degrees Celsius");
-  delay(10000);
+  delay(5000);
 
 }
 
@@ -48,7 +47,6 @@ float readTemp() {
 
 }
 void loop() {
-  bmps.readTemperature();
   float temp;
   temp = readTemp();
   printTemp(temp);

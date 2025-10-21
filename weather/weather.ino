@@ -21,7 +21,7 @@ void setup() {
     Serial.println("Error initializing sensor.");
   }
 
-  delay(10000);
+  delay(1000);
 
 
   // opening
@@ -41,11 +41,15 @@ void printTemp(float temp) {
 
   tft.setCursor(0, 0);
   tft.setTextWrap(true);
-  tft.print("Temperature:");
-  tft.setCursor(0, 16);
+  tft.println("Temperature:");
   tft.print(temp);
-  tft.println(" degrees Celsius");
-  delay(10000);
+  tft.println(" degrees C");
+  float Ftemp = (temp * 1.8) + 32;
+  tft.print(Ftemp);
+  tft.println(" degrees F");
+  tft.println("");
+  tft.println("If error in readings,ensure all wires are connected or press reset button on Arduino.");
+  delay(10000); // change to 1200000 when ready for practical use
   tft.fillScreen(ST77XX_BLACK);
 }
 

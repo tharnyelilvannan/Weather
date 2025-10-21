@@ -30,15 +30,23 @@ void setup() {
 }
 
 void printTemp(float temp) {
-  tft.setTextColor(ST77XX_BLUE);
+
+  if (temp > 25) {
+    tft.setTextColor(ST77XX_RED);
+  }
+  else {
+    tft.setTextColor(ST77XX_BLUE);
+
+  }
+
   tft.setCursor(0, 0);
   tft.setTextWrap(true);
   tft.print("Temperature:");
   tft.setCursor(0, 16);
   tft.print(temp);
   tft.println(" degrees Celsius");
-  delay(5000);
-
+  delay(10000);
+  tft.fillScreen(ST77XX_BLACK);
 }
 
 float readTemp() {
